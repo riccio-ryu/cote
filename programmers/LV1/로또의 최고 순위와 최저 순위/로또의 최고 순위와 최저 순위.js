@@ -21,3 +21,17 @@ let min = 7 - same >= 6 ? 6: 7 - same;
 아마도 같은 숫자(same)과 0들의 숫자(zeros)가 둘다 0개일때, 7 - 0 - 0을 해서 7이 나와 오류가 아닐까...?
 ---그런것 같다...흠..
 */
+
+
+/* 모범답안
+function solution(lottos, win_nums) {
+    const rank = [6, 6, 5, 4, 3, 2, 1];
+
+    let minCount = lottos.filter(v => win_nums.includes(v)).length;
+    let zeroCount = lottos.filter(v => !v).length;
+
+    const maxCount = minCount + zeroCount;
+
+    return [rank[maxCount], rank[minCount]];
+}
+*/
