@@ -28,7 +28,7 @@ console.log(`The character code ${sentence.charCodeAt(index)} is equal to ${sent
 ```
 
 
-+ 48~57 : 0~9
++ 48~~~57 : 0~~~9
 + 65~90 : A~Z
 + 97~122 : a~z
 
