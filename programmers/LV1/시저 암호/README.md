@@ -29,8 +29,8 @@ console.log(`The character code ${sentence.charCodeAt(index)} is equal to ${sent
 
 
 + 48~~~57 : 0~~~9
-+ 65~90 : A~Z
-+ 97~122 : a~z
++ 65~~~~90 : A~~~Z
++ 97~~~122 : a~~~z
 
 
 <https://velog.io/@ahsy92/JavaScript-charCodeAt-%EC%95%84%EC%8A%A4%ED%82%A4-%EB%84%98%EB%B2%84-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0>
