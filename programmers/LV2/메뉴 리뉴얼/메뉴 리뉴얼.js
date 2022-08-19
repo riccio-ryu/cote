@@ -1710,10 +1710,12 @@ function solution(orders, course) {
   const candidates = {};
   const maxNum = Array(10 + 1).fill(0);
   const createSet = (arr, start, len, foods) => {
+      console.log(arr, start, len, foods)
     if (len === 0) {
       ordered[foods] = (ordered[foods] || 0) + 1;
       if (ordered[foods] > 1) candidates[foods] = ordered[foods];
       maxNum[foods.length] = Math.max(maxNum[foods.length], ordered[foods]);
+        console.log('ocm ',ordered, candidates, maxNum)
       return;
     }
 
@@ -1738,4 +1740,3511 @@ function solution(orders, course) {
 
   return launched.sort();
 }
+*/
+
+
+/*
+["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"], [2, 3, 4]
+
+[ 'A', 'B', 'C', 'F', 'G' ] 0 2 
+[ 'A', 'B', 'C', 'F', 'G' ] 1 1 A
+[ 'A', 'B', 'C', 'F', 'G' ] 2 0 AB
+ocm { AB: 1 } {} [
+  0, 0, 1, 0, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 3 0 AC
+ocm { AB: 1, AC: 1 } {} [
+  0, 0, 1, 0, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 4 0 AF
+ocm { AB: 1, AC: 1, AF: 1 } {} [
+  0, 0, 1, 0, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 AG
+ocm { AB: 1, AC: 1, AF: 1, AG: 1 } {} [
+  0, 0, 1, 0, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 2 1 B
+[ 'A', 'B', 'C', 'F', 'G' ] 3 0 BC
+ocm { AB: 1, AC: 1, AF: 1, AG: 1, BC: 1 } {} [
+  0, 0, 1, 0, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 4 0 BF
+ocm { AB: 1, AC: 1, AF: 1, AG: 1, BC: 1, BF: 1 } {} [
+  0, 0, 1, 0, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 BG
+ocm { AB: 1, AC: 1, AF: 1, AG: 1, BC: 1, BF: 1, BG: 1 } {} [
+  0, 0, 1, 0, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 3 1 C
+[ 'A', 'B', 'C', 'F', 'G' ] 4 0 CF
+ocm { AB: 1, AC: 1, AF: 1, AG: 1, BC: 1, BF: 1, BG: 1, CF: 1 } {} [
+  0, 0, 1, 0, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 CG
+ocm { AB: 1, AC: 1, AF: 1, AG: 1, BC: 1, BF: 1, BG: 1, CF: 1, CG: 1 } {} [
+  0, 0, 1, 0, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 4 1 F
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 FG
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1
+} {} [
+  0, 0, 1, 0, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 1 G
+[ 'A', 'B', 'C', 'F', 'G' ] 0 3 
+[ 'A', 'B', 'C', 'F', 'G' ] 1 2 A
+[ 'A', 'B', 'C', 'F', 'G' ] 2 1 AB
+[ 'A', 'B', 'C', 'F', 'G' ] 3 0 ABC
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1
+} {} [
+  0, 0, 1, 1, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 4 0 ABF
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1
+} {} [
+  0, 0, 1, 1, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 ABG
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1
+} {} [
+  0, 0, 1, 1, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 3 1 AC
+[ 'A', 'B', 'C', 'F', 'G' ] 4 0 ACF
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1
+} {} [
+  0, 0, 1, 1, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 ACG
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1
+} {} [
+  0, 0, 1, 1, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 4 1 AF
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 AFG
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1
+} {} [
+  0, 0, 1, 1, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 1 AG
+[ 'A', 'B', 'C', 'F', 'G' ] 2 2 B
+[ 'A', 'B', 'C', 'F', 'G' ] 3 1 BC
+[ 'A', 'B', 'C', 'F', 'G' ] 4 0 BCF
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1
+} {} [
+  0, 0, 1, 1, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 BCG
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1
+} {} [
+  0, 0, 1, 1, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 4 1 BF
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 BFG
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1
+} {} [
+  0, 0, 1, 1, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 1 BG
+[ 'A', 'B', 'C', 'F', 'G' ] 3 2 C
+[ 'A', 'B', 'C', 'F', 'G' ] 4 1 CF
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 CFG
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1
+} {} [
+  0, 0, 1, 1, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 1 CG
+[ 'A', 'B', 'C', 'F', 'G' ] 4 2 F
+[ 'A', 'B', 'C', 'F', 'G' ] 5 1 FG
+[ 'A', 'B', 'C', 'F', 'G' ] 5 2 G
+[ 'A', 'B', 'C', 'F', 'G' ] 0 4 
+[ 'A', 'B', 'C', 'F', 'G' ] 1 3 A
+[ 'A', 'B', 'C', 'F', 'G' ] 2 2 AB
+[ 'A', 'B', 'C', 'F', 'G' ] 3 1 ABC
+[ 'A', 'B', 'C', 'F', 'G' ] 4 0 ABCF
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1
+} {} [
+  0, 0, 1, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 ABCG
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1
+} {} [
+  0, 0, 1, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 4 1 ABF
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 ABFG
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1
+} {} [
+  0, 0, 1, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 1 ABG
+[ 'A', 'B', 'C', 'F', 'G' ] 3 2 AC
+[ 'A', 'B', 'C', 'F', 'G' ] 4 1 ACF
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 ACFG
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1
+} {} [
+  0, 0, 1, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 1 ACG
+[ 'A', 'B', 'C', 'F', 'G' ] 4 2 AF
+[ 'A', 'B', 'C', 'F', 'G' ] 5 1 AFG
+[ 'A', 'B', 'C', 'F', 'G' ] 5 2 AG
+[ 'A', 'B', 'C', 'F', 'G' ] 2 3 B
+[ 'A', 'B', 'C', 'F', 'G' ] 3 2 BC
+[ 'A', 'B', 'C', 'F', 'G' ] 4 1 BCF
+[ 'A', 'B', 'C', 'F', 'G' ] 5 0 BCFG
+ocm {
+  AB: 1,
+  AC: 1,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1
+} {} [
+  0, 0, 1, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'B', 'C', 'F', 'G' ] 5 1 BCG
+[ 'A', 'B', 'C', 'F', 'G' ] 4 2 BF
+[ 'A', 'B', 'C', 'F', 'G' ] 5 1 BFG
+[ 'A', 'B', 'C', 'F', 'G' ] 5 2 BG
+[ 'A', 'B', 'C', 'F', 'G' ] 3 3 C
+[ 'A', 'B', 'C', 'F', 'G' ] 4 2 CF
+[ 'A', 'B', 'C', 'F', 'G' ] 5 1 CFG
+[ 'A', 'B', 'C', 'F', 'G' ] 5 2 CG
+[ 'A', 'B', 'C', 'F', 'G' ] 4 3 F
+[ 'A', 'B', 'C', 'F', 'G' ] 5 2 FG
+[ 'A', 'B', 'C', 'F', 'G' ] 5 3 G
+[ 'A', 'C' ] 0 2 
+[ 'A', 'C' ] 1 1 A
+[ 'A', 'C' ] 2 0 AC
+ocm {
+  AB: 1,
+  AC: 2,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1
+} { AC: 2 } [
+  0, 0, 2, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C' ] 2 1 C
+[ 'A', 'C' ] 0 3 
+[ 'A', 'C' ] 1 2 A
+[ 'A', 'C' ] 2 1 AC
+[ 'A', 'C' ] 2 2 C
+[ 'A', 'C' ] 0 4 
+[ 'A', 'C' ] 1 3 A
+[ 'A', 'C' ] 2 2 AC
+[ 'A', 'C' ] 2 3 C
+[ 'C', 'D', 'E' ] 0 2 
+[ 'C', 'D', 'E' ] 1 1 C
+[ 'C', 'D', 'E' ] 2 0 CD
+ocm {
+  AB: 1,
+  AC: 2,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 1
+} { AC: 2 } [
+  0, 0, 2, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'C', 'D', 'E' ] 3 0 CE
+ocm {
+  AB: 1,
+  AC: 2,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 1,
+  CE: 1
+} { AC: 2 } [
+  0, 0, 2, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'C', 'D', 'E' ] 2 1 D
+[ 'C', 'D', 'E' ] 3 0 DE
+ocm {
+  AB: 1,
+  AC: 2,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 1,
+  CE: 1,
+  DE: 1
+} { AC: 2 } [
+  0, 0, 2, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'C', 'D', 'E' ] 3 1 E
+[ 'C', 'D', 'E' ] 0 3 
+[ 'C', 'D', 'E' ] 1 2 C
+[ 'C', 'D', 'E' ] 2 1 CD
+[ 'C', 'D', 'E' ] 3 0 CDE
+ocm {
+  AB: 1,
+  AC: 2,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 1,
+  CE: 1,
+  DE: 1,
+  CDE: 1
+} { AC: 2 } [
+  0, 0, 2, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'C', 'D', 'E' ] 3 1 CE
+[ 'C', 'D', 'E' ] 2 2 D
+[ 'C', 'D', 'E' ] 3 1 DE
+[ 'C', 'D', 'E' ] 3 2 E
+[ 'C', 'D', 'E' ] 0 4 
+[ 'C', 'D', 'E' ] 1 3 C
+[ 'C', 'D', 'E' ] 2 2 CD
+[ 'C', 'D', 'E' ] 3 1 CDE
+[ 'C', 'D', 'E' ] 3 2 CE
+[ 'C', 'D', 'E' ] 2 3 D
+[ 'C', 'D', 'E' ] 3 2 DE
+[ 'C', 'D', 'E' ] 3 3 E
+[ 'A', 'C', 'D', 'E' ] 0 2 
+[ 'A', 'C', 'D', 'E' ] 1 1 A
+[ 'A', 'C', 'D', 'E' ] 2 0 AC
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 1,
+  CE: 1,
+  DE: 1,
+  CDE: 1
+} { AC: 3 } [
+  0, 0, 3, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E' ] 3 0 AD
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 1,
+  CE: 1,
+  DE: 1,
+  CDE: 1,
+  AD: 1
+} { AC: 3 } [
+  0, 0, 3, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E' ] 4 0 AE
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 1,
+  CE: 1,
+  DE: 1,
+  CDE: 1,
+  AD: 1,
+  AE: 1
+} { AC: 3 } [
+  0, 0, 3, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E' ] 2 1 C
+[ 'A', 'C', 'D', 'E' ] 3 0 CD
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 1,
+  DE: 1,
+  CDE: 1,
+  AD: 1,
+  AE: 1
+} { AC: 3, CD: 2 } [
+  0, 0, 3, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E' ] 4 0 CE
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 1,
+  CDE: 1,
+  AD: 1,
+  AE: 1
+} { AC: 3, CD: 2, CE: 2 } [
+  0, 0, 3, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E' ] 3 1 D
+[ 'A', 'C', 'D', 'E' ] 4 0 DE
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 1,
+  AD: 1,
+  AE: 1
+} { AC: 3, CD: 2, CE: 2, DE: 2 } [
+  0, 0, 3, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E' ] 4 1 E
+[ 'A', 'C', 'D', 'E' ] 0 3 
+[ 'A', 'C', 'D', 'E' ] 1 2 A
+[ 'A', 'C', 'D', 'E' ] 2 1 AC
+[ 'A', 'C', 'D', 'E' ] 3 0 ACD
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 1,
+  AD: 1,
+  AE: 1,
+  ACD: 1
+} { AC: 3, CD: 2, CE: 2, DE: 2 } [
+  0, 0, 3, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E' ] 4 0 ACE
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 1,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1
+} { AC: 3, CD: 2, CE: 2, DE: 2 } [
+  0, 0, 3, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E' ] 3 1 AD
+[ 'A', 'C', 'D', 'E' ] 4 0 ADE
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 1,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1
+} { AC: 3, CD: 2, CE: 2, DE: 2 } [
+  0, 0, 3, 1, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E' ] 4 1 AE
+[ 'A', 'C', 'D', 'E' ] 2 2 C
+[ 'A', 'C', 'D', 'E' ] 3 1 CD
+[ 'A', 'C', 'D', 'E' ] 4 0 CDE
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1
+} { AC: 3, CD: 2, CE: 2, DE: 2, CDE: 2 } [
+  0, 0, 3, 2, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E' ] 4 1 CE
+[ 'A', 'C', 'D', 'E' ] 3 2 D
+[ 'A', 'C', 'D', 'E' ] 4 1 DE
+[ 'A', 'C', 'D', 'E' ] 4 2 E
+[ 'A', 'C', 'D', 'E' ] 0 4 
+[ 'A', 'C', 'D', 'E' ] 1 3 A
+[ 'A', 'C', 'D', 'E' ] 2 2 AC
+[ 'A', 'C', 'D', 'E' ] 3 1 ACD
+[ 'A', 'C', 'D', 'E' ] 4 0 ACDE
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 1,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} { AC: 3, CD: 2, CE: 2, DE: 2, CDE: 2 } [
+  0, 0, 3, 2, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E' ] 4 1 ACE
+[ 'A', 'C', 'D', 'E' ] 3 2 AD
+[ 'A', 'C', 'D', 'E' ] 4 1 ADE
+[ 'A', 'C', 'D', 'E' ] 4 2 AE
+[ 'A', 'C', 'D', 'E' ] 2 3 C
+[ 'A', 'C', 'D', 'E' ] 3 2 CD
+[ 'A', 'C', 'D', 'E' ] 4 1 CDE
+[ 'A', 'C', 'D', 'E' ] 4 2 CE
+[ 'A', 'C', 'D', 'E' ] 3 3 D
+[ 'A', 'C', 'D', 'E' ] 4 2 DE
+[ 'A', 'C', 'D', 'E' ] 4 3 E
+[ 'B', 'C', 'F', 'G' ] 0 2 
+[ 'B', 'C', 'F', 'G' ] 1 1 B
+[ 'B', 'C', 'F', 'G' ] 2 0 BC
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 1,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} { AC: 3, CD: 2, CE: 2, DE: 2, CDE: 2, BC: 2 } [
+  0, 0, 3, 2, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'B', 'C', 'F', 'G' ] 3 0 BF
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 1,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} { AC: 3, CD: 2, CE: 2, DE: 2, CDE: 2, BC: 2, BF: 2 } [
+  0, 0, 3, 2, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'B', 'C', 'F', 'G' ] 4 0 BG
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 1,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} { AC: 3, CD: 2, CE: 2, DE: 2, CDE: 2, BC: 2, BF: 2, BG: 2 } [
+  0, 0, 3, 2, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'B', 'C', 'F', 'G' ] 2 1 C
+[ 'B', 'C', 'F', 'G' ] 3 0 CF
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 1,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} { AC: 3, CD: 2, CE: 2, DE: 2, CDE: 2, BC: 2, BF: 2, BG: 2, CF: 2 } [
+  0, 0, 3, 2, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'B', 'C', 'F', 'G' ] 4 0 CG
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 1,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} {
+  AC: 3,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2
+} [
+  0, 0, 3, 2, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'B', 'C', 'F', 'G' ] 3 1 F
+[ 'B', 'C', 'F', 'G' ] 4 0 FG
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 1,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} {
+  AC: 3,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2
+} [
+  0, 0, 3, 2, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'B', 'C', 'F', 'G' ] 4 1 G
+[ 'B', 'C', 'F', 'G' ] 0 3 
+[ 'B', 'C', 'F', 'G' ] 1 2 B
+[ 'B', 'C', 'F', 'G' ] 2 1 BC
+[ 'B', 'C', 'F', 'G' ] 3 0 BCF
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 1,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} {
+  AC: 3,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2
+} [
+  0, 0, 3, 2, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'B', 'C', 'F', 'G' ] 4 0 BCG
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 1,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} {
+  AC: 3,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2
+} [
+  0, 0, 3, 2, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'B', 'C', 'F', 'G' ] 3 1 BF
+[ 'B', 'C', 'F', 'G' ] 4 0 BFG
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 1,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} {
+  AC: 3,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2
+} [
+  0, 0, 3, 2, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'B', 'C', 'F', 'G' ] 4 1 BG
+[ 'B', 'C', 'F', 'G' ] 2 2 C
+[ 'B', 'C', 'F', 'G' ] 3 1 CF
+[ 'B', 'C', 'F', 'G' ] 4 0 CFG
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 1,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} {
+  AC: 3,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2
+} [
+  0, 0, 3, 2, 1,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'B', 'C', 'F', 'G' ] 4 1 CG
+[ 'B', 'C', 'F', 'G' ] 3 2 F
+[ 'B', 'C', 'F', 'G' ] 4 1 FG
+[ 'B', 'C', 'F', 'G' ] 4 2 G
+[ 'B', 'C', 'F', 'G' ] 0 4 
+[ 'B', 'C', 'F', 'G' ] 1 3 B
+[ 'B', 'C', 'F', 'G' ] 2 2 BC
+[ 'B', 'C', 'F', 'G' ] 3 1 BCF
+[ 'B', 'C', 'F', 'G' ] 4 0 BCFG
+ocm {
+  AB: 1,
+  AC: 3,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} {
+  AC: 3,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2
+} [
+  0, 0, 3, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'B', 'C', 'F', 'G' ] 4 1 BCG
+[ 'B', 'C', 'F', 'G' ] 3 2 BF
+[ 'B', 'C', 'F', 'G' ] 4 1 BFG
+[ 'B', 'C', 'F', 'G' ] 4 2 BG
+[ 'B', 'C', 'F', 'G' ] 2 3 C
+[ 'B', 'C', 'F', 'G' ] 3 2 CF
+[ 'B', 'C', 'F', 'G' ] 4 1 CFG
+[ 'B', 'C', 'F', 'G' ] 4 2 CG
+[ 'B', 'C', 'F', 'G' ] 3 3 F
+[ 'B', 'C', 'F', 'G' ] 4 2 FG
+[ 'B', 'C', 'F', 'G' ] 4 3 G
+[ 'A', 'C', 'D', 'E', 'H' ] 0 2 
+[ 'A', 'C', 'D', 'E', 'H' ] 1 1 A
+[ 'A', 'C', 'D', 'E', 'H' ] 2 0 AC
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 1,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} {
+  AC: 4,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 3 0 AD
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 2,
+  AE: 1,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} {
+  AC: 4,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 4 0 AE
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1
+} {
+  AC: 4,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 AH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1,
+  AH: 1
+} {
+  AC: 4,
+  CD: 2,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 2 1 C
+[ 'A', 'C', 'D', 'E', 'H' ] 3 0 CD
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1,
+  AH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 2,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 4 0 CE
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 2,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1,
+  AH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 CH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 2,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1,
+  AH: 1,
+  CH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 2,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 3 1 D
+[ 'A', 'C', 'D', 'E', 'H' ] 4 0 DE
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1,
+  AH: 1,
+  CH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 DH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1,
+  AH: 1,
+  CH: 1,
+  DH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 4 1 E
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 EH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 1,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 1 H
+[ 'A', 'C', 'D', 'E', 'H' ] 0 3 
+[ 'A', 'C', 'D', 'E', 'H' ] 1 2 A
+[ 'A', 'C', 'D', 'E', 'H' ] 2 1 AC
+[ 'A', 'C', 'D', 'E', 'H' ] 3 0 ACD
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 1,
+  ADE: 1,
+  ACDE: 1,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 4 0 ACE
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 1,
+  ACDE: 1,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 ACH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 1,
+  ACDE: 1,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 3 1 AD
+[ 'A', 'C', 'D', 'E', 'H' ] 4 0 ADE
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 1,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 ADH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 1,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1,
+  ADH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 4 1 AE
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 AEH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 1,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1,
+  ADH: 1,
+  AEH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 2,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2
+} [
+  0, 0, 4, 2, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 1 AH
+[ 'A', 'C', 'D', 'E', 'H' ] 2 2 C
+[ 'A', 'C', 'D', 'E', 'H' ] 3 1 CD
+[ 'A', 'C', 'D', 'E', 'H' ] 4 0 CDE
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 1,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1,
+  ADH: 1,
+  AEH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2
+} [
+  0, 0, 4, 3, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 CDH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 1,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1,
+  ADH: 1,
+  AEH: 1,
+  CDH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2
+} [
+  0, 0, 4, 3, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 4 1 CE
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 CEH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 1,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1,
+  ADH: 1,
+  AEH: 1,
+  CDH: 1,
+  CEH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2
+} [
+  0, 0, 4, 3, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 1 CH
+[ 'A', 'C', 'D', 'E', 'H' ] 3 2 D
+[ 'A', 'C', 'D', 'E', 'H' ] 4 1 DE
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 DEH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 1,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1,
+  ADH: 1,
+  AEH: 1,
+  CDH: 1,
+  CEH: 1,
+  DEH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2
+} [
+  0, 0, 4, 3, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 1 DH
+[ 'A', 'C', 'D', 'E', 'H' ] 4 2 E
+[ 'A', 'C', 'D', 'E', 'H' ] 5 1 EH
+[ 'A', 'C', 'D', 'E', 'H' ] 5 2 H
+[ 'A', 'C', 'D', 'E', 'H' ] 0 4 
+[ 'A', 'C', 'D', 'E', 'H' ] 1 3 A
+[ 'A', 'C', 'D', 'E', 'H' ] 2 2 AC
+[ 'A', 'C', 'D', 'E', 'H' ] 3 1 ACD
+[ 'A', 'C', 'D', 'E', 'H' ] 4 0 ACDE
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 2,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1,
+  ADH: 1,
+  AEH: 1,
+  CDH: 1,
+  CEH: 1,
+  DEH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 2
+} [
+  0, 0, 4, 3, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 ACDH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 2,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1,
+  ADH: 1,
+  AEH: 1,
+  CDH: 1,
+  CEH: 1,
+  DEH: 1,
+  ACDH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 2
+} [
+  0, 0, 4, 3, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 4 1 ACE
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 ACEH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 2,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1,
+  ADH: 1,
+  AEH: 1,
+  CDH: 1,
+  CEH: 1,
+  DEH: 1,
+  ACDH: 1,
+  ACEH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 2
+} [
+  0, 0, 4, 3, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 1 ACH
+[ 'A', 'C', 'D', 'E', 'H' ] 3 2 AD
+[ 'A', 'C', 'D', 'E', 'H' ] 4 1 ADE
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 ADEH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 2,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1,
+  ADH: 1,
+  AEH: 1,
+  CDH: 1,
+  CEH: 1,
+  DEH: 1,
+  ACDH: 1,
+  ACEH: 1,
+  ADEH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 2
+} [
+  0, 0, 4, 3, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 1 ADH
+[ 'A', 'C', 'D', 'E', 'H' ] 4 2 AE
+[ 'A', 'C', 'D', 'E', 'H' ] 5 1 AEH
+[ 'A', 'C', 'D', 'E', 'H' ] 5 2 AH
+[ 'A', 'C', 'D', 'E', 'H' ] 2 3 C
+[ 'A', 'C', 'D', 'E', 'H' ] 3 2 CD
+[ 'A', 'C', 'D', 'E', 'H' ] 4 1 CDE
+[ 'A', 'C', 'D', 'E', 'H' ] 5 0 CDEH
+ocm {
+  AB: 1,
+  AC: 4,
+  AF: 1,
+  AG: 1,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  ABC: 1,
+  ABF: 1,
+  ABG: 1,
+  ACF: 1,
+  ACG: 1,
+  AFG: 1,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  ABCF: 1,
+  ABCG: 1,
+  ABFG: 1,
+  ACFG: 1,
+  BCFG: 2,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 2,
+  AH: 1,
+  CH: 1,
+  DH: 1,
+  EH: 1,
+  ACH: 1,
+  ADH: 1,
+  AEH: 1,
+  CDH: 1,
+  CEH: 1,
+  DEH: 1,
+  ACDH: 1,
+  ACEH: 1,
+  ADEH: 1,
+  CDEH: 1
+} {
+  AC: 4,
+  CD: 3,
+  CE: 3,
+  DE: 3,
+  CDE: 3,
+  BC: 2,
+  BF: 2,
+  BG: 2,
+  CF: 2,
+  CG: 2,
+  FG: 2,
+  BCF: 2,
+  BCG: 2,
+  BFG: 2,
+  CFG: 2,
+  BCFG: 2,
+  AD: 2,
+  AE: 2,
+  ACD: 2,
+  ACE: 2,
+  ADE: 2,
+  ACDE: 2
+} [
+  0, 0, 4, 3, 2,
+  0, 0, 0, 0, 0,
+  0
+]
+[ 'A', 'C', 'D', 'E', 'H' ] 5 1 CDH
+[ 'A', 'C', 'D', 'E', 'H' ] 4 2 CE
+[ 'A', 'C', 'D', 'E', 'H' ] 5 1 CEH
+[ 'A', 'C', 'D', 'E', 'H' ] 5 2 CH
+[ 'A', 'C', 'D', 'E', 'H' ] 3 3 D
+[ 'A', 'C', 'D', 'E', 'H' ] 4 2 DE
+[ 'A', 'C', 'D', 'E', 'H' ] 5 1 DEH
+[ 'A', 'C', 'D', 'E', 'H' ] 5 2 DH
+[ 'A', 'C', 'D', 'E', 'H' ] 4 3 E
+[ 'A', 'C', 'D', 'E', 'H' ] 5 2 EH
+[ 'A', 'C', 'D', 'E', 'H' ] 5 3 H
+
+=> ["AC", "ACDE", "BCFG", "CDE"]
 */
