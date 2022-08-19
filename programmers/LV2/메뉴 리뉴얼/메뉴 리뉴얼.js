@@ -41,6 +41,8 @@ const getCombinations = (array, selectNum) => {
 //이건 진짜 어렵다.
 
 /*
+solution(["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"], [2,3,4])
+
 fio:  A 0 [ 'A', 'B', 'C', 'F', 'G' ]
 rere [ [ 'B' ], [ 'C' ], [ 'F' ], [ 'G' ] ] [ [ 'A', 'B' ], [ 'A', 'C' ], [ 'A', 'F' ], [ 'A', 'G' ] ]
 fio:  B 1 [ 'A', 'B', 'C', 'F', 'G' ]
