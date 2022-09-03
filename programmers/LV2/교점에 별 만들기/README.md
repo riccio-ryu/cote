@@ -28,11 +28,9 @@ document.writeln(isInteger(123.1)); // false
 ### 안전한 상수
 ---
 
-최대값  Number.MAX_SAFE_INTEGER
-
+최대값 : Number.MAX_SAFE_INTEGER
 Number.MAX_SAFE_INTEGER 상수는 JavaScript에서 안전한 최대 정수값을 나타냅니다. (2^53 - 1)  //9007199254740991
 
 
-최소값
-
+최소값 : MIN_SAFE_INTEGER
 Number.MIN_SAFE_INTEGER 상수는 JavaScript에서 안전한 최소 정수값을 나타냅니다. (-(2^53 - 1)) //-9007199254740991
