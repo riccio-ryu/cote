@@ -1,33 +1,58 @@
-const input = require('fs').readFileSync('example.txt').toString().trim().split('\n').map(Number);
+const input = require('fs').readFileSync('example.txt').toString().trim().split('\n');
 
-let arr = [...Array(11)];
-arr[1] = 1
-arr[2] = 2
-arr[3] = 4
+let cnt, num;
+[cnt, num] = input[0].split(' ').map(Number);
+const str = input[1].split(' ').sort()
+const vow = ['a','e', 'i','o','u']
 
-for (let i = 4; i < 11; i++) {
-    arr[i] = arr[i-1] + arr[i-2] + arr[i-3]    
+let ff = (n,m) => {
+    let c = Array(m).fill('')    //자릿수 (cnt)
+    let k = Array(n).fill(0)    // 사용여부(num)
+    let v = []
+    let uu = (t) => {
+        if(t === m){
+            let data = []
+            for (let i = 0; i < m; i++) {
+                data.push(c[i])
+            }
+            v.push(data.sort())
+        }
+        for (let i = 0; i < n; i++) {
+            if(!k[i]){
+                c[t] = str[i]
+                k[i] = 1
+                uu(t+1)
+                k[i]=0
+            }
+        }
+    }
+    uu(0)
+    const ccc = [...new Set(v.map(o => o.join('')))]
+    for (let i = 0; i < ccc.length; i++) {
+        let z = 0;
+        for (let j = 0; j < vow.length; j++) {
+            if(ccc[i].includes(vow[j])) {
+                z += 1
+            }
+        }
+        if(z > 0){
+            console.log(ccc[i]);
+        }
+    }
 }
-for (let i = 1; i < input.length; i++) {
-    console.log(arr[input[i]]);
-}
+ff(num, cnt)
 
-// let arr = [0, 1, 2, 4]
-// for (let i = 1; i <= input.length; i++) {
-//     let num = input[i]
-//     for (let j = 4; j <= num; j++) {
-//         arr[j] = arr[j-1] + arr[j-2] + arr[j-3]
+// console.log(cnt);
+// console.log(num);
+// console.log(str);
+// let v = ''
+// for (let i = 0; i < cnt; i++) {
+//     let txt = ''
+//     for (let j = i+1; j < num; j++) {
+//         txt = str[i] + str[j]
+//         if(!v.includes(txt)){
+//             v += txt+'\n';
+//         }
 //     }
-//     console.log(arr[num]);
 // }
-
-/*
-1 (1) -> 1
-2 (2) -> 1,1 / 2
-3 (4) -> 1,1,1 /1,2 /2,1 / 3
-4 (7) -> 1,1,1,1 / 1,1,2 /1,2,1 / 2,1,1 / 2,2 / 1,3 / 3,1
-5 (13)-> 1,1,1,1,1 / 1,1,1,2 / 1,1,2,1 / 1,2,1,1 / 2,1,1,1 / 1,2,2 / 2,1,2 / 2,2,1 / 1,1,3 / 1,3,1/ 3,1,1 / 2,3/ 3,2  
-...
-
-n = n-1 + n-2 + n-3
-*/
+// console.log(v);
