@@ -15,6 +15,29 @@ function solution(players, callings) {
 }
 
 /*
-배열로 문제를 풀어보니 시간초과 발생으로
-객체에 순서를 정해줘서 바꿔가면서 하니까 정상 작동하였다
+array로 풀려니 사간초과 에러 발생으로
+객체로 각 선수의 순서를 기입해서 푸는 방법으로 바꾸었다
+{a:1, b:2, c:3} -> {a:3,b:2,c:1}
+해당 객체 기반에 순서를 참고하여 배열함
+*/
+
+
+/* 시간 초과 에러
+function solution(players, callings) {
+    let answer = [];
+    let cl = callings.length
+    let cnt = 0;    
+    while (cnt < cl){
+        let now = callings[cnt]
+        const isName = (x) => x === now
+        let ind = players.findIndex(isName)
+        sw(players, ind, ind-1)
+        cnt++;
+    }
+    answer = [...players]
+    return answer;
+}
+function sw(arr, i1, i2) {
+  [arr[i1], arr[i2]] = [arr[i2], arr[i1]];
+}
 */
