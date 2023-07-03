@@ -1,3 +1,41 @@
+function solution(park, routes) {
+    const mxH = park.length - 1;        // 최대 세로
+    const mxW = park[0].length - 1;     // 최대 가로
+    let h = park.findIndex(s => s.includes("S"))    //시작점 세로 위치
+    let w = park[h].indexOf("S")        //시작점 가로 위치
+    // console.log(mxW, mxH, w, h)
+    routes.map(path => {
+        let p= path.split(' ');
+        let d = p[0];    // 방향
+        let n = +p[1];   // 거리
+        let tx = w;
+        let ty = h;
+        let tf = true;      // 조건
+        for (let i = 0; i < n; i++) {
+            if(d === 'N') ty--;
+            else if(d === 'E') tx++;
+            else if(d === 'W') tx--;
+            else if(d === 'S') ty++;
+            
+            if(tx > mxW ||
+               tx < 0 ||
+               ty > mxH ||
+               ty < 0 ||
+               park[ty].slice(tx, tx+1) === "X"
+            ){
+                tf = false;
+                break;
+            }
+        }
+        
+        if(tf){ //진위여부
+            w = tx
+            h = ty
+        }
+    })
+    return [h, w];
+}
+
 /* 정확성 75.0
 function solution(park, routes) {
     let start = [0,0]       // 시작위치(현재 위치)
