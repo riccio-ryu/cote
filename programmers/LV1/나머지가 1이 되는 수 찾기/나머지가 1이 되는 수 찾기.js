@@ -1,3 +1,15 @@
+// 2023.08.18
+function solution(n) {
+    let answer = 0;
+    
+    for(let i = n-1; i >= 2; i--){
+        // console.log(i)
+        if(n % i === 1) answer = i
+    }
+    return answer;
+}
+
+/* 2022
 function solution(n) {
     let answer = 0;
     let t = yac(n-1)
@@ -12,6 +24,7 @@ function yac (k){
     }
     return arr
 }
+*/
 
 /*
 function solution(n) {
