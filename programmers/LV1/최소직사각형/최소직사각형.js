@@ -1,3 +1,17 @@
+// 2023.08.18
+function solution(sizes) {
+    
+    for(s of sizes){
+        if(s[0] < s[1]) [s[0], s[1]] = [s[1], s[0]]
+    }
+    const max0 = Math.max(...sizes.map((c) => c[0]))
+    const max1 = Math.max(...sizes.map((c) => c[1]))
+    // console.log(max0, max1)
+    return max0 * max1;
+}
+
+// 2022
+/*
 function solution(sizes) {
     let answer = 0;
     let rw = 0;
@@ -14,6 +28,7 @@ function solution(sizes) {
     }
     return rw * rh;
 }
+*/
 
 /*
 function solution(sizes) {
