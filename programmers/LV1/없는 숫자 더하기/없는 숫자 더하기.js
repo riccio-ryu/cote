@@ -1,3 +1,10 @@
+//2023
+function solution(numbers) {
+    return 45 - numbers.reduce((acc, crr) => acc+crr, 0);
+}
+
+// 2022
+/*
 function solution(numbers) {
     let total = 0;
     let sum =0;
@@ -11,6 +18,7 @@ function solution(numbers) {
     answer = total - sum
     return answer;
 }
+*/
 
 /*
 function solution(numbers) {
