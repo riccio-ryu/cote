@@ -1,3 +1,73 @@
+//2023
+/*
+1   2   3
+4   5   6
+7   8   9
+10  11  12
+*/
+// l :: 4 % 3 =>1 // c 5 % 3 => 2 // 6 % 3 => 0
+
+let now_left = 10;      // 현재 왼쪽 검지
+let now_right = 12;     // 현재 오른쪽 검지
+
+function solution(numbers, hand) {
+    return numbers.map(n => {
+        if(n === 0) n = 11
+        switch(n % 3){
+            case 0:
+                return rightMove(n)
+                break;
+            case 1:
+                return leftMove(n)
+                break;
+            default:
+                return centerMove(n, hand)
+                break;
+        }
+    }).join('');
+}
+
+const leftMove = (x) => {
+    now_left = x;
+    return 'L'
+}
+const rightMove = (x) => {
+    now_right = x;
+    return 'R'
+}
+const centerMove = (x, h) => {
+    // 목표 지점 ~ 좌 검지 거리
+    // 목표 지점 ~ 우 검지 거리
+    // 두 검지 거리가 같다면 h, h에 따른 현재 좌 검지, 우 검지 이동, 리턴.
+    const l = dist(now_left, x)
+    const r = dist(now_right, x)
+    if(l < r){
+        return leftMove(x)
+    }else if(l > r){
+        return rightMove(x)
+    }else{
+        return h === 'left' ? leftMove(x) : rightMove(x)
+    }
+}
+const dist = (a, b) => {
+    a=a-1;
+    b=b-1;
+    // a :: now_left or now_right       // b는 목표 지점 : 2,5,8,11(0)
+    /*
+    b -> 2   a -> 10  
+    가로 차 :: 10 % 3 = 1, 2 % 3 = 2, 즉 2 - 1 = 1
+    세로 차 :: 첫 줄 과 마지막 줄 , 10 / 3 -> 3, 3은 4번줄, 2/3 = 0, 0은 1번줄 :: 4 - 1 = 3
+    결론 4칸 차
+    */
+    // a, b를 생으로 쓰면, b/3 - a/3등에 문제가 생김 :: 8/3 - 1/3 는 2    // 1씩 이동 후 7/3 - 0/3 = 2, 
+    // 우측 parseInt(8/3) - parseInt(3/3) = 1, -1씩 parseInt(7/3) - parseInt(2/3) = 2
+    // 8%3 - 1%3 = 1, -1씩 :: 7%3 - 0%3 = 1 // 우측은 8%3 - 3%3 = 2, -1씩, 7%3 - 2%3 = -1 = 1
+    const v = Math.abs((b%3) - (a%3))
+    const h = Math.abs(parseInt(b/3) - parseInt(a/3))
+    return v + h;
+}
+
+//2022
 let now_l = 10; //leftThumb position
 let now_r = 12; //rightThumb position
 
