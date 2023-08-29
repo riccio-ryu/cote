@@ -1,3 +1,14 @@
+//2023
+function solution(lottos, win_nums) {
+    let sames = lottos.filter(l => win_nums.includes(l)).length // 같은 값 (최소)
+    let zeros = lottos.filter(l => l === 0).length
+    let mx = sames + zeros > 0 ? 7 - (sames + zeros) : 6
+    let mn = 7 - sames > 6 ? 6 : 7 - sames
+    // console.log(sames, zeros, mx, mn)
+    return [mx, mn];
+}
+
+//2022
 function solution(lottos, win_nums) {
     const same = lottos.filter(lot => win_nums.includes(lot)).length;
     const zeros = lottos.filter(lot => lot === 0).length;
