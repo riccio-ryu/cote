@@ -1,3 +1,13 @@
+//2023
+function solution(n) {
+  let answer = 0;
+  for (let i = 1; i <= n; i++) {
+    if (n % i === 0) answer += i;
+  }
+  return answer;
+}
+
+//2022
 function solution(n) {
     const ps = yyy(n)
     return ps.reduce((a,c) => a+c,0);
