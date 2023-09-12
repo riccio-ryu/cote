@@ -1,3 +1,9 @@
+//2023
+function solution(s){
+    return s.toLowerCase().split('').filter(x => x=== 'p').length === s.toLowerCase().split('').filter(x => x=== 'y').length;
+}
+
+//2022
 function solution(s){
     let answer = true;
     const low = s.toLowerCase().split('');
