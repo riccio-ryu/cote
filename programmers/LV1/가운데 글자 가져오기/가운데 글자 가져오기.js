@@ -1,3 +1,9 @@
+//2023
+function solution(s) {
+    return s.length%2 ? s.slice(Math.floor(s.length/2),Math.floor(s.length/2)+1) : s.slice(Math.floor(s.length/2)-1, Math.floor(s.length/2)+1);
+}
+
+//2022
 function solution(s) {
     let answer = '';
     let cnt = s.length;
