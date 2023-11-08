@@ -8,3 +8,13 @@ function solution(num1, num2) {
     return [gcd(num1, num2), lcm(num1, num2)];
 }
 ```
+
+### 소수
+```javascript
+function isPrime(x){
+    for(let i=2; i<= Math.sqrt(x); i++){
+        if(x%i === 0) return false;
+    }
+    return x>=2
+}
+```
