@@ -18,3 +18,10 @@ function isPrime(x){
     return x>=2
 }
 ```
+
+### ceil, floor, round
+```javascript
+Math.ceil()     // 올림
+Math.floor()    // 내림
+Math.round()    // 반올림
+```
