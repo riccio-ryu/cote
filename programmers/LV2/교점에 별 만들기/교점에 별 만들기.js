@@ -1,3 +1,39 @@
+// 2023
+
+function solution(line) {
+    let answer = [];
+    let [maxH, minH, maxW, minW] = [-Infinity, Infinity, -Infinity, Infinity];
+    line.forEach(([a,b,e], i) => {
+        // console.log(a,b,e,i)
+        for(let j = i+1; j < line.length;j++){
+            const [c, d, f] = line[j];
+            // console.log(c,d,f,j)
+            const m = a * d - b * c;
+            if (m === 0) continue;
+            const xt = b * f - e * d;
+            const yt = e * c - a * f;
+            if (xt % m || yt % m) continue; // 소수 컷
+            const [x, y] = [xt / m, yt / m];
+            answer.push([x,y])
+            maxW = Math.max(x, maxW);
+            minW = Math.min(x, minW);
+            maxH = Math.max(y, maxH);
+            minH = Math.min(y, minH);
+        }
+    })
+    // console.log(maxW, minW, maxH, minH)  // 4, -4, 4, -4
+    const arr = new Array(maxH - minH + 1).fill(null).map(() => new Array(maxW - minW + 1).fill('.'))
+    answer.forEach(([x, y]) => { 
+        // console.log(x, y)   
+        //[0][4]    //[-4][-4]  // [4][-4]   //[4][1]    //[-4][1]
+        //[0][4] // [3][0]  // [3][8]   //[8][0]    //[8][8]
+        arr[maxH - y][x - minW] = "*"
+    });
+    // console.log(arr)
+    return arr.map((z) => z.join(""));
+}
+
+// 2022
 function solution(line) {
     const MSI = Number.MAX_SAFE_INTEGER;
     let points = [];
