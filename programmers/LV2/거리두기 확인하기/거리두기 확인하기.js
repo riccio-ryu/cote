@@ -1,3 +1,47 @@
+// 2023
+/*
+(r1, c1), (r2, c2)
+|r1 - r2| + |c1 - c2| > 2
+*/
+function solution(places) {
+    const answer = []
+    places.map(place => answer.push(cd(place)))
+    return answer;
+}
+const cd = (place) => {
+    let rooms = place.map((room) => room.split(''));
+    // console.log(rooms)
+    const person = []
+    for(let i = 0; i < 5; i++){
+        for(let j = 0; j < 5; j++){
+            if(rooms[i][j] === 'P') person.push([i,j])
+        }
+    }
+    // console.log(person)
+    const dx = [-1, 1, 0, 0];
+    const dy = [0, 0, 1, -1];
+    while(person.length){
+        const [x, y] = person.shift();
+        // console.log(x,y)
+        for(let i = 0; i < 4; i++){
+            const nx = x + dx[i]
+            const ny = y + dy[i]
+            if (nx < 0 || nx >= 5 || ny < 0 || ny >= 5) continue;   // 외부 제외
+            if (rooms[nx][ny] === 'X') continue;                    // 상하좌우에 X
+            if (rooms[nx][ny] === 'P') return 0;                    // 상하좌우에 P면 0
+            for(let j = 0; j < 4; j++){                         // 상하좌우의 주변
+                const mx = nx + dx[j]
+                const my = ny + dy[j]
+                if (mx < 0 || mx >= 5 || my < 0 || my >= 5) continue;   // 외부 제외
+                if (mx === x && my === y) continue;                     // 주변에 [x,y]면 다시
+                if (rooms[mx][my] === 'P') return 0;                    // 주변에 P면 0
+            }
+        }
+    }
+    return 1
+}
+
+//2022
 function solution(places) {
     var answer = [];
     answer = places.map(place => {
