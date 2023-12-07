@@ -1,3 +1,44 @@
+//2023
+/* 
+일단 표를 그리고, 한칸씩 밀자.
+*/
+function solution(rows, columns, queries) {
+    const answer = [];
+    const arr = new Array(rows).fill().map((_,i) => new Array(columns));
+    for(let i = 0; i < rows; i++){
+        for(let j = 0; j < columns; j++){
+            arr[i][j] = i* columns +j+1
+        }
+    }
+    queries.map(q => {
+        const [x1, y1, x2, y2] = [...q]
+        const [xs, ys, xe, ye] = [x1-1, y1-1, x2-1, y2-1]
+        const order = []
+        for(let i = xs; i <= xe; i++) order.push(arr[i][ys])
+        for(let i = ys+1; i <= ye; i++) order.push(arr[xe][i])
+        for(let i = xe-1; i >= xs; i--) order.push(arr[i][ye])
+        for(let i = ye-1; i > ys; i--) order.push(arr[xs][i])
+        order.push(order.shift())
+        answer.push(Math.min(...order))
+        // console.log(order)
+        for(let i = xs; i <= xe; i++) {
+            arr[i][ys] = order.shift()
+        }
+        for(let i = ys+1; i <= ye; i++) {
+            arr[xe][i] = order.shift()
+        }
+        for(let i = xe-1; i >= xs; i--) {
+            arr[i][ye] = order.shift()
+        }
+        for(let i = ye-1; i > ys; i--) {
+            arr[xs][i] = order.shift()
+        }
+        // console.log(order, arr)
+    })
+    return answer;
+}
+
+//2022
 function solution(rows, columns, queries) {
     let answer = [];
     let mat = new Array(rows)
