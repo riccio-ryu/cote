@@ -1,3 +1,37 @@
+//2023
+
+function solution(orders, course) {
+    const obj = {}                      // 모든 주문 가능성 1개 포함
+    const can = {}                      // 주문 들어온게 1개보다 많아야 들어오는 객체
+    const max = new Array(11).fill(0)   // 10이하 0~10
+    const fn = (arr, start, leng, foods) => {
+        // console.log(arr, start, leng, foods)
+        if(!leng){  // leng이 0이어야만 obj에 등록이 될수 있다.
+            obj[foods] = (obj[foods] || 0) +1
+            if(obj[foods] > 1) can[foods] = obj[foods]      // can에 1개보다 크면 기록
+            max[foods.length] = Math.max(max[foods.length], obj[foods])
+            return;
+        }
+        for(let i = start; i < arr.length; i++){
+            fn(arr, i+1, leng-1, foods+arr[i])
+        }
+    }
+    orders.forEach(o => {
+        const ss = o.split('').sort()
+        course.forEach(c => {
+            fn(ss, 0, c, '')
+        })
+    })
+    // console.log(obj)
+    // console.log(can)
+    // console.log(max)
+    return (Object.keys(can).filter(f => {
+        return max[f.length] === can[f]
+    })).sort()
+}
+
+//2022
+
 function solution(orders, course) {
     var answer = [];
     for (const selectNum of course) {
