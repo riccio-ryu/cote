@@ -1,3 +1,20 @@
+// 2023
+function solution(s) {
+    const answer = [];
+    let cs = s.slice(2,-2).split('},{').map(n => n.split(',').map(Number)).sort((a,b) => a.length - b.length)
+    // console.log(cs)
+    for(let i = 0; i < cs.length; i++){
+        // console.log(i, cs[i])
+        const n = cs[i].filter(x => !answer.includes(x))
+        // console.log(n)
+        if(n.length) answer.push(n[0])
+    }
+    return answer;
+}
+
+
+
+// 022
 function solution(s) {
     let answer = [];
     let res = s.slice(2, -2).split("},{").map((e) => e.split(",").map((e) => parseInt(e))).sort((a, b) => a.length - b.length)
