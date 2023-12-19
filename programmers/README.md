@@ -52,3 +52,10 @@ function bfs (i, arr, visited) {
         }
     }
 ```
+
+### 알아두면 좋은 정규표현식
+```javascript
+const expression = "100-200*300-500+20"
+const es = expression.split(/(\D)/)    // D는 숫자 제외
+console.log(es)    //	['100', '-', '200', '*', '300', '-', '500', '+', '20']
+```
