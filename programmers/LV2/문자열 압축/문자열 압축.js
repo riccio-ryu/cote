@@ -12,7 +12,7 @@ function solution(s) {
             while(true){                        // 같은 문자열을 찾는다
                 j+=i    // 현재 다음
                 let ss2 = s.slice(j, j + i);
-                console.log(ss, ss2)
+                // console.log(ss, ss2)
                 if(ss === ss2) cnt++
                 else break;
             }
