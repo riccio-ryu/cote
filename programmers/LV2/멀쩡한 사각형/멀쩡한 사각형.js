@@ -1,3 +1,10 @@
+//2023
+function solution(w, h) {
+    const gcd = (w, h) => w % h === 0 ? h : gcd(h, w % h);
+    return (w*h-(w+h-gcd(w,h)));
+}
+
+//2022
 function solution(w, h) {
     let answer = 1;
     let cen = gbg(w,h)
