@@ -1,3 +1,31 @@
+// 2023
+function solution(record) {
+    const answer = [];
+    const m = {}
+    record.map(r => {
+        const [act, uid, nick] = r.split(' ');
+        // console.log(act, uid, nick)
+        if (act !== 'Leave') m[uid] = nick
+    })
+    record.map(r => {
+        const [act, uid, nick] = r.split(' ')
+        switch(act){
+            case 'Enter': 
+                answer.push(`${m[uid]}님이 들어왔습니다.`)
+                break;
+            case 'Leave': 
+                answer.push(`${m[uid]}님이 나갔습니다.`)
+                break;
+        }
+    })
+    return answer;
+}
+
+
+
+
+
+// 2022
 function solution(record) {
     let answer = [];
     const mm = new Map();
