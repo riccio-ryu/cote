@@ -78,3 +78,20 @@ function getCombination(arr,selectNum){
 
 getCombination([1,2,3,4], 3);
 ```
+
+### Array
+```javascript
+//Array.from() 메서드는 유사 배열 객체(array-like object)나 반복 가능한 객체(iterable object)를 얕게 복사해 새로운Array 객체를 만듭니다.
+console.log(Array.from([1, 2, 3], x => x + x));
+// expected output: Array [2, 4, 6]
+
+Array.from({length:3}, () => 0)
+// expected output: Array [0, 0, 0]
+
+//nums is array ex
+Array.from(new Set(...[nums]))
+
+// if n = 3
+const arr = new Array(n).fill(1)
+// Array [1,1,1]
+```
