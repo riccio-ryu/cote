@@ -1,3 +1,33 @@
+// 2024
+/*
+영문자로 된 글자 쌍만 유효하고, 기타 공백이나 숫자, 특수 문자가 들어있는 경우는 그 글자 쌍을 버린다. 
+*/
+function solution(str1, str2) {
+    const s1 = ch(str1)
+    const s2 = ch(str2)
+    const ss = new Set([...s1, ...s2])
+    let min = 0, max =0
+    for(const s of ss ){
+        const q1 = s1.filter(q => q === s).length
+        const q2 = s2.filter(q => q === s).length
+        min += Math.min(q1, q2)
+        max += Math.max(q1, q2)
+    }
+    // console.log(min/max, Math.floor(min/max*65536))
+    return max === 0 ? 65536 : Math.floor(min/max*65536);
+}
+const ch = (str) => {
+    str = str.toLowerCase()
+    const reg = /[a-z]/
+    const arr = []
+    for(let i = 0; i < str.length-1; i++){
+        if(reg.test(str[i]) && reg.test(str[i+1])) arr.push(str[i] + str[i+1])
+    }
+    return arr
+}
+
+
+// 2022
 function solution(str1, str2) {
     let answer = 0;
     let a1 = chase(str1)
