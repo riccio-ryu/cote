@@ -26,6 +26,9 @@ Math.floor()    // 내림
 Math.round()    // 반올림
 ```
 
+## dfs & bfs
+const visited = new Array(n).fill(0)  
+를 활용하자
 ### dfs
 ```javascript
 function dfs (n, arr, i) {
