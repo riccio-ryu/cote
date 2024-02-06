@@ -28,7 +28,12 @@ Math.round()    // 반올림
 
 ## dfs & bfs
 const visited = new Array(n).fill(0)  
-를 활용하자
+를 활용하자  
+BFS 사용 예  
+- 최단거리, 최소 횟수, 미로, 탐색 등
+
+DFS 사용 예  
+- 경우의 수, 이동 과정에 제약 있음 등
 ### dfs
 ```javascript
 function dfs (n, arr, i) {
