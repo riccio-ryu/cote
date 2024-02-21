@@ -103,3 +103,10 @@ Array.from(new Set(...[nums]))
 const arr = new Array(n).fill(1)
 // Array [1,1,1]
 ```
+
+### 진수변환
+```javascript
+let num = 67
+let n2 = num.toString(2)    // 1000011
+parseInt(n2, 2);            // 67
+```
