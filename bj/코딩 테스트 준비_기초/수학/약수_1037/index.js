@@ -1,3 +1,16 @@
+//2024
+const input = require("fs").readFileSync("example.txt").toString().split("\n");
+const a = +input[0];
+const b = input[1].split(" ").map(Number);
+
+const max = Math.max(...b);
+const min = Math.min(...b);
+
+console.log(min * max);
+
+
+
+// 2023
 const input = require('fs').readFileSync('example.txt').toString().split('\n');
 
 // let cnt = input[0]
