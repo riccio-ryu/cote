@@ -7,6 +7,26 @@ const input = require("fs").readFileSync("example.txt").toString().split("\n");
 
 //한칸 뛰고
 const input = require("fs").readFileSync("example.txt").toString().split(" ")
+
+// 개행분자 제거
+const input = require("fs")
+  .readFileSync("example.txt")
+  .toString()
+  .trim()
+  .split("\n")
+  .map((s) => s.replace(/\n|\r|\s*/g, ""));
+
+// 줄바꿈 제거
+str.replace(/\n/g, "");
+
+// 엔터 제거
+str.replace(/\r/g, "");
+
+// 공백 제거
+str.replace(/\s*/g, "");
+
+// 개행문자 모두 제거
+str.replace(/\n|\r|\s*/g, "");
 ```
 
 //terminal 실행
