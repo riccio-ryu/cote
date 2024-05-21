@@ -8,3 +8,6 @@ const input = require("fs").readFileSync("example.txt").toString().split("\n");
 //한칸 뛰고
 const input = require("fs").readFileSync("example.txt").toString().split(" ")
 ```
+
+//terminal 실행
+해당 폴더 진입 후 'node index' enter
