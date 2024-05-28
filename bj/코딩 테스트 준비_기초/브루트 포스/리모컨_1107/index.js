@@ -19,8 +19,8 @@ const brokens = nums
 
 // console.log(N, M, nums, brokens);
 
-let count = Math.abs(1000000 - N);
-for (let i = 0; i < 100; i++) {
+let count = Math.abs(100 - N);
+for (let i = 0; i < 1000000; i++) {
   //1000000 -> +500000 , -500000
   const n = i.toString();
   let isValid = true; // cnt세기 위해
