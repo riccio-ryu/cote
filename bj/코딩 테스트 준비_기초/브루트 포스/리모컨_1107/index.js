@@ -17,7 +17,7 @@ const brokens = nums
     }, {})
   : {};
 
-console.log(N, M, nums, brokens);
+// console.log(N, M, nums, brokens);
 
 let count = Math.abs(1000000 - N);
 for (let i = 0; i < 100; i++) {
