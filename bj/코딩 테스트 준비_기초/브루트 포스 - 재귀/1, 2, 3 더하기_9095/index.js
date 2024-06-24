@@ -1,3 +1,26 @@
+// 2024
+const input = require("fs")
+  .readFileSync("example.txt")
+  .toString()
+  .trim()
+  .split("\n")
+  .map((s) => parseInt(s.replace(/\n|\r|\s*/g, "")));
+
+const N = input.shift();
+
+let arr = new Array(11).fill(0);
+arr[1] = 1;
+arr[2] = 2;
+arr[3] = 4;
+for (let i = 4; i < 11; i++) {
+  arr[i] = arr[i - 1] + arr[i - 2] + arr[i - 3];
+}
+input.forEach((el) => {
+  console.log(arr[el]);
+});
+
+
+// 2023
 const input = require('fs').readFileSync('example.txt').toString().trim().split('\n');
 
 let arr = [...Array(11)];
