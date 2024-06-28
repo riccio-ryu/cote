@@ -1,3 +1,39 @@
+// 2024
+const input = require("fs")
+  .readFileSync("example.txt")
+  .toString()
+  .trim()
+  .split("\n");
+const [L, C] = input[0].split(" ").map(Number);
+const str = input[1].split(" ").sort();
+const m = ["a", "e", "i", "o", "u"];
+let arr = [];
+
+const ff = (s, n) => {
+  // console.log(s, n);
+  if (s.length === L) {
+    // L 의 길이만큼
+    // m중에 1개, 자음 2개 이상
+    let k = 0;
+    for (let i = 0; i < L; i++) {
+      if (m.includes(s[i])) k++; // 모음 수 체크
+    }
+    if (k > 0 && L - k >= 2) arr.push(s);
+  } else {
+    // L의 길이만큼 안됨
+    for (let i = n; i < C; i++) {
+      ff(s + str[i], i + 1);
+    }
+  }
+};
+
+ff("", 0);
+
+console.log(arr.join("\n"));
+
+
+
+// 2023
 const input = require('fs').readFileSync('example.txt').toString().trim().split('\n');
 
 let cnt, num;
