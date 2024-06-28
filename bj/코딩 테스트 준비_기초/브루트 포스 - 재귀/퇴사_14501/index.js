@@ -1,3 +1,31 @@
+// 2024
+const input = require("fs")
+  .readFileSync("/dev/stdin")
+  .toString()
+  .trim()
+  .split("\n")
+  .map((s) => s.split(" ").map(Number));
+const [N] = input.shift();
+
+let arr = new Array(N).fill(0);
+
+// console.log(N, input, arr);
+
+for (let i = 0; i < N; i++) {
+  // console.log(i, input[i][0], input[i][1]);
+  if (input[i][0] + i > N) continue;
+  arr[i] += input[i][1];
+  // console.log(arr);
+  for (let j = i + input[i][0]; j < N; j++) {
+    arr[j] = Math.max(arr[j], arr[i]);
+  }
+}
+
+console.log(Math.max(...arr));
+
+
+
+// 2023
 //1 ≤ N ≤ 15
 
 const input = require('fs').readFileSync('example.txt').toString().trim().split('\n');
