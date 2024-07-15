@@ -1,3 +1,82 @@
+// 2024
+let [N, M] = require("fs")
+  .readFileSync("example.txt")
+  .toString()
+  .trim()
+  .split("\n")
+  .map((s) => s.replace(/\n|\r|\s*/g, ""));
+const n = Number(N);
+let m = M.split("").map(Number);
+
+const ff = (arr) => {
+  let i = arr.length - 1; //마지막 수
+  // arr의 끝에서부터 첫 번째 감소하는 숫자를 찾자
+  while (i > 0 && arr[i - 1] >= arr[i]) i--;
+  if (i <= 0) return false; // 첫 번째 감소가 없으면 -1
+
+  let j = arr.length - 1; // arr[i-1]보다 큰 첫번째 수
+  while (arr[j] <= arr[i - 1]) j--;
+
+  // i-1과 j를 교환
+  [arr[i - 1], arr[j]] = [arr[j], arr[i - 1]];
+  // console.log(arr);
+
+  // arr[i]부터 끝까지 배열을 뒤집는다
+  j = arr.length - 1;
+  // console.log("1", i, j, arr);
+  while (i < j) {
+    // console.log("2", i, j, arr);
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+    i++;
+    j--;
+  }
+  return true;
+};
+
+if (ff(m)) {
+  console.log(m.join(" "));
+} else {
+  console.log(-1);
+}
+
+
+
+// 메모리 초과
+let [N, M] = require("fs")
+  .readFileSync("example.txt")
+  .toString()
+  .trim()
+  .split("\n")
+  .map((s) => s.replace(/\n|\r|\s*/g, ""));
+const m = M.split("").map(Number);
+const n = Number(N);
+const l = m.join("");
+
+const p = (arr) => {
+  const result = [];
+  const pp = (a, b) => {
+    if (!b.length) {
+      result.push(a.join(""));
+    } else {
+      for (let i = 0; i < b.length; i++) {
+        let c = a.concat(b[i]);
+        let d = b.slice(0, i).concat(b.slice(i + 1));
+        pp(c, d);
+      }
+    }
+  };
+  pp([], arr);
+  return result;
+};
+const arr = p(m).sort();
+const ind = arr.findIndex((o) => o === l);
+console.log(
+  ind < 0 || ind + 1 >= arr.length ? -1 : arr[ind + 1].split("").join(" ")
+);
+
+
+
+// 2023
 // N(1 ≤ N ≤ 10,000)
 
 const [cnt, ...arr] = require('fs').readFileSync('example.txt').toString().trim().split(/\s+/).map(v => +v);
