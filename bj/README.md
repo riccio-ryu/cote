@@ -64,21 +64,19 @@ console.log(arrays);
 
 반복문을 이용한 배열 줄세우기(브루트 포스)
 ```
-const arr = input[i];
-const k = arr.shift();
-
-function comb(arr, num) {
-  const result = [];
-  if (num === 1) return arr.map((el) => [el]);
-  arr.forEach((f, i, o) => {
-    const rest = o.slice(i + 1);
-    const cb = comb(rest, num - 1);
-    const att = cb.map((el) => [f, ...el]);
-    result.push(...att);
-  });
-  return result;
+function getCombination(arr,selectNum){
+    const result = [];                                               // 결과값을 담은 배열선언 
+    if(selectNum === 1) {                                            // selectNum 이 1 일 때 (재귀함수의 종료조건, 탈출구!)
+        return arr.map(a=>[a])                                       // ex) [[2], [3]] 이런식으로 값이 리턴된다 
+    }
+    arr.forEach((fix,i,origin)=>{
+        const rest=origin.slice(i+1);                                // 처음 하나(fixedNum)를 제외한 나머지를 배열로 만들기 ex) 1을 제외하면 [2, 3, 4]
+        const combi=getCombination(rest,selectNum-1);                // selectNum === 1 이 되서 배열을 리턴하며 종료할 때까지 재귀된다
+        const attach=combi.map((c)=>[fix,...c]);                     // 앞에서 따로 뺴놓은 첫번째 수(fixedNum)를 각각 배열 값에 추가해주자
+        result.push(...attach)                                       // reuslt 배열에 push 해준다    // (spread를 사용하는 이유는 반환된 배열들을 한 배열 안으로 넣기 위해서이다)
+    }) 
+    return result;
 }
 
-const val = comb(arr, 6);
-// arr 을 이용해 6개로 만들수 있는 중복없는 모든 배열
+getCombination([1,2,3,4], 3);
 ```
