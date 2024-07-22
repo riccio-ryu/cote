@@ -33,8 +33,7 @@ str.replace(/\n|\r|\s*/g, "");
 해당 폴더 진입 후 'node index' enter
 
 
-// 반복문(브루트 포스)
-// 1~N까지의 숫자로 중복없이 만든 모든 배열
+반복문(브루트 포스) 1~N까지의 숫자로 중복없이 만든 모든 배열
 ```
 const ff = (n) => {
   const result = [];
@@ -61,4 +60,25 @@ const arrays = ff(
 );
 
 console.log(arrays);
+```
+
+반복문을 이용한 배열 줄세우기(브루트 포스)
+```
+const arr = input[i];
+const k = arr.shift();
+
+function comb(arr, num) {
+  const result = [];
+  if (num === 1) return arr.map((el) => [el]);
+  arr.forEach((f, i, o) => {
+    const rest = o.slice(i + 1);
+    const cb = comb(rest, num - 1);
+    const att = cb.map((el) => [f, ...el]);
+    result.push(...att);
+  });
+  return result;
+}
+
+const val = comb(arr, 6);
+// arr 을 이용해 6개로 만들수 있는 중복없는 모든 배열
 ```
