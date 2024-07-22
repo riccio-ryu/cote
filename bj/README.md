@@ -31,3 +31,34 @@ str.replace(/\n|\r|\s*/g, "");
 
 //terminal 실행
 해당 폴더 진입 후 'node index' enter
+
+
+// 반복문(브루트 포스)
+// 1~N까지의 숫자로 중복없이 만든 모든 배열
+```
+const ff = (n) => {
+  const result = [];
+
+  const fff = (m, l = []) => {
+    if (!m.length) {
+      result.push(l);
+    } else {
+      for (let i = 0; i < m.length; i++) {
+        const copy = [...m];
+        const k = copy.splice(i, 1);
+        fff(copy, l.concat(k));
+      }
+    }
+  };
+  fff(n);
+  return result;
+};
+
+const arrays = ff(
+  Array(N)
+    .fill()
+    .map((_, i) => i)
+);
+
+console.log(arrays);
+```
