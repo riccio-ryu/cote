@@ -1,3 +1,37 @@
+// 2024
+
+let [[N, S], M] = require("fs")
+  .readFileSync("example.txt")
+  .toString()
+  .trim()
+  .split("\n")
+  .map((s) => s.replace(/\n|\r*/g, ""))
+  .map((s) => s.split(" ").map(Number));
+
+// console.log(N, S, M);
+let cnt = 0;
+
+const ff = (i, sum) => {
+  if (i === N) {
+    if (sum === S) cnt++;
+    return;
+  }
+
+  // 현재수 비 포함
+  ff(i + 1, sum);
+  //현재수 포함
+  ff(i + 1, sum + M[i]);
+};
+
+ff(0, 0);
+
+if (S === 0) cnt--;
+
+console.log(cnt);
+
+
+// 2023
+
 // 1 ≤ N ≤ 20, |S| ≤ 1,000,000
 
 const input = require('fs').readFileSync('example.txt').toString().trim().split('\n').map((v) => v.split(" ").map((v) => +v));
