@@ -22,7 +22,7 @@ for (let i = 4; i <= max; i++) {
   arr[i][2] = (arr[i - 3][0] + arr[i - 3][1]) % q;
 }
 
-console.log(arr);
+// console.log(arr);
 const results = num.map((n) => (arr[n][0] + arr[n][1] + arr[n][2]) % q);
 console.log(results.join("\n"));
 
