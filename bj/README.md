@@ -59,6 +59,9 @@ const arrays = ff(
     .map((_, i) => i)
 );
 
+// DP 배열 초기화
+let dp = Array.from({ length: K + 1 }, () => Array(N + 1).fill(0));
+
 console.log(arrays);
 ```
 
