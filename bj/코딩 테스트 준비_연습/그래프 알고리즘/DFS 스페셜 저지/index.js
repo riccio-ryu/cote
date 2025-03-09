@@ -8,7 +8,7 @@ const input = require("fs")
   .map((n) => n.replace(/\n|\r/g, ""));
 
 const N = parseInt(input[0]);
-const bfsOrder = input[N].split(" ").map(Number);
+const dfsOrder = input[N].split(" ").map(Number);
 
 const graph = Array.from({ length: N + 1 }, () => []);
 const visited = Array(N + 1).fill(false);
@@ -19,11 +19,11 @@ for (let i = 1; i < N; i++) {
   graph[b].push(a);
 }
 
-// console.log(N, bfsOrder, graph, visited);
+// console.log(N, dfsOrder, graph, visited);
 
 const order = Array(N + 1).fill(0);
 for (let i = 0; i < N; i++) {
-  order[bfsOrder[i]] = i; // BFS 탐색 순서를 저장 (노드 → 순서)
+  order[dfsOrder[i]] = i; // BFS 탐색 순서를 저장 (노드 → 순서)
 }
 
 for (let i = 1; i <= N; i++) {
@@ -31,26 +31,27 @@ for (let i = 1; i <= N; i++) {
 }
 
 // console.log(order, graph);
+let index = 0;
+function dfs(node) {
+  if (node !== dfsOrder[index]) {
+    console.log(0);
+    process.exit(); // 순서가 다르면 즉시 종료
+  }
 
-function isValidBFS() {
-  let stack = [1];
-  visited[1] = true;
-  let index = 0;
+  visited[node] = true;
+  index++;
 
-  while (stack.length > 0) {
-    const node = stack.pop();
-
-    if (node !== bfsOrder[index]) return 0;
-    index++;
-
-    for (const next of graph[node]) {
-      if (!visited[next]) {
-        visited[next] = true;
-        stack.push(next);
-      }
+  for (const next of graph[node]) {
+    if (!visited[next]) {
+      dfs(next);
     }
   }
-  return 1;
 }
 
-console.log(isValidBFS());
+if (dfsOrder[0] !== 1) {
+  console.log(0);
+} else {
+  dfs(1);
+  console.log(1);
+}
+
