@@ -8,8 +8,7 @@ const towers = input.map(
     line
       .split(" ")
       .slice(1)
-      .join("")
-      .replace(/\n|\r|\s*/g, "") || ""
+      .join("") || ""
 );
 
 // console.log(towers);
