@@ -1,0 +1,35 @@
+// 2025
+
+const input = require("fs")
+  .readFileSync("example.txt")
+  .toString()
+  .trim()
+  .split("\n");
+
+const [N, S, M] = input[0].split(" ").map(Number);
+const volumes = input[1].split(" ").map(Number);
+
+const dp = Array.from({ length: N + 1 }, () => Array(M + 1).fill(false));
+dp[0][S] = true;
+
+// console.log(N, S, M);
+
+for (let i = 1; i <= N; i++) {
+  const V = volumes[i - 1];
+  for (let v = 0; v <= M; v++) {
+    if (dp[i - 1][v]) {
+      // console.log("dd ", dp);
+      if (v + V <= M) dp[i][v + V] = true;
+      if (v - V >= 0) dp[i][v - V] = true;
+      // console.log("dd2 ", dp);
+    }
+  }
+}
+let answer = -1;
+for (let v = M; v >= 0; v--) {
+  if (dp[N][v]) {
+    answer = v;
+    break;
+  }
+}
+console.log(answer);
