@@ -1,0 +1,72 @@
+// 2025
+
+const input = require("fs")
+  .readFileSync("example.txt")
+  .toString()
+  .trim()
+  .split("\n")
+  .map((s) =>
+    s
+      .replace(/\n|\r|\s*/g, "")
+      .split("")
+      .map(Number)
+  );
+
+// console.log(input);
+const s = input; // 3x3 배열
+
+const magicSquares = [
+  [
+    [8, 1, 6],
+    [3, 5, 7],
+    [4, 9, 2],
+  ],
+  [
+    [6, 1, 8],
+    [7, 5, 3],
+    [2, 9, 4],
+  ],
+  [
+    [4, 9, 2],
+    [3, 5, 7],
+    [8, 1, 6],
+  ],
+  [
+    [2, 9, 4],
+    [7, 5, 3],
+    [6, 1, 8],
+  ],
+  [
+    [8, 3, 4],
+    [1, 5, 9],
+    [6, 7, 2],
+  ],
+  [
+    [4, 3, 8],
+    [9, 5, 1],
+    [2, 7, 6],
+  ],
+  [
+    [6, 7, 2],
+    [1, 5, 9],
+    [8, 3, 4],
+  ],
+  [
+    [2, 7, 6],
+    [9, 5, 1],
+    [4, 3, 8],
+  ],
+];
+
+let minCost = Infinity;
+for (let m of magicSquares) {
+  let cost = 0;
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      cost += Math.abs(s[i][j] - m[i][j]);
+    }
+  }
+  minCost = Math.min(minCost, cost);
+}
+
+console.log(minCost);
