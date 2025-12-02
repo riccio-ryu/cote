@@ -1,6 +1,55 @@
 // 2025
 
 const fs = require("fs");
+const input = fs.readFileSync("/dev/stdin")
+  .toString().trim().split("\n");
+
+const S = input[1].trim().split("");
+const n = S.length;
+
+const MOD = 100000;
+
+function canPair(a, b) {
+  if (a === '?' && b === '?') return 3;
+  if (a === '?' && (b === ')' || b === ']' || b === '}')) return 1;
+  if (b === '?' && (a === '(' || a === '[' || a === '{')) return 1;
+  if (
+    (a === '(' && b === ')') ||
+    (a === '[' && b === ']') ||
+    (a === '{' && b === '}')
+  ) return 1;
+  return 0;
+}
+
+const dp = Array.from({ length: n }, () => Array(n).fill(0));
+
+for (let i = 0; i < n - 1; i++) {
+  dp[i][i + 1] = canPair(S[i], S[i + 1]);
+}
+
+for (let len = 4; len <= n; len += 2) {
+  for (let l = 0; l + len - 1 < n; l++) {
+    const r = l + len - 1;
+    let total = 0;
+
+    for (let k = l + 1; k <= r; k += 2) {
+      const w = canPair(S[l], S[k]);
+      if (!w) continue;
+
+      const left = (k - 1 >= l + 1) ? dp[l + 1][k - 1] : 1;
+      const right = (k + 1 <= r) ? dp[k + 1][r] : 1;
+
+      total = (total + (w * left % MOD) * right) % MOD;
+    }
+
+    dp[l][r] = total;
+  }
+}
+
+console.log(dp[0][n - 1] % MOD);
+
+// 아래 틀렸음
+const fs = require("fs");
 const input = fs
   .readFileSync("example")
   .toString()
