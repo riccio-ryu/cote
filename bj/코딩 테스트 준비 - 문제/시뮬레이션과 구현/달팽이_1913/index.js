@@ -35,7 +35,7 @@ while (num < N * N) {
   for (let t = 0; t < 2; t++) {
     for (let i = 0; i < step; i++) {
       if (num >= N * N) break;
-
+// console.log(' --- ', dir, num, step, x, y, ansX, ansY)
       x += dx[dir];
       y += dy[dir];
       num++;
@@ -43,10 +43,12 @@ while (num < N * N) {
       board[x][y] = num;
 
       if (num === K) {
+        // K 위치(index)
         ansX = x;
         ansY = y;
       }
     }
+    // 모든 step 이동 후 방향전환
     dir = (dir + 1) % 4;
   }
   step++;
