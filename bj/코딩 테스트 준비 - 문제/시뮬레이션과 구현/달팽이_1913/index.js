@@ -28,30 +28,25 @@ board[x][y] = num;
 let ansX = x;
 let ansY = y;
 
-if (num === K) {
-  ansX = x;
-  ansY = y;
-}
-
 let dir = 0;
 let step = 1;
 
 while (num < N * N) {
   for (let t = 0; t < 2; t++) {
     for (let i = 0; i < step; i++) {
-      // console.log(' --- ', i, step, x, y, board)
+      if (num >= N * N) break;
+
       x += dx[dir];
       y += dy[dir];
       num++;
+
       board[x][y] = num;
 
       if (num === K) {
         ansX = x;
         ansY = y;
       }
-      if (num === N * N) break;
     }
-    // console.log(t, board)
     dir = (dir + 1) % 4;
   }
   step++;
@@ -62,6 +57,6 @@ let output = "";
 for (let i = 0; i < N; i++) {
   output += board[i].join(" ") + "\n";
 }
-
 output += `${ansX + 1} ${ansY + 1}`;
+
 console.log(output.trim());
