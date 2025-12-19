@@ -7,6 +7,49 @@ const input = fs
   .trim()
   .split(" ").map(Number);
 
+let [M, N] = input;
+
+// console.log(M,N)
+
+// min = (min(M, N) - 1) / 2
+let min = Math.floor((Math.min(M, N) - 1) / 2);
+
+// 시작 좌표
+let x = min + 1;
+let y = min + 1;
+
+// 꺾인 횟수
+let count = 4 * min;
+
+// 안쪽 사각형 제거
+M -= 2 * min;
+N -= 2 * min;
+
+// 경우 분기 (Java 코드 그대로)
+if (M === 1) {
+  y += N - 1;
+} else if (N === 1) {
+  count++;
+  x += M - 1;
+} else if (M === 2) {
+  count += 2;
+  x++;
+} else {
+  count += 3;
+  x++;
+}
+
+console.log(count);
+console.log(x + " " + y);
+
+/** 메모리 초과
+const fs = require("fs");
+const input = fs
+  .readFileSync("example")
+  .toString()
+  .trim()
+  .split(" ").map(Number);
+
 const [M, N] = input;
 
 // console.log(M,N)
@@ -41,3 +84,4 @@ while (count-- > 0) {
 
 console.log(answer);
 console.log(i + 1 , j + 1);
+*/
