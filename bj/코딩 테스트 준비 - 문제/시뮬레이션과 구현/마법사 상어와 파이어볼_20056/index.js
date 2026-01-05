@@ -71,3 +71,6 @@ for (let k = 0; k < K; k++) {
     }
     fireballs = nextFireballs;
 }
+
+const result = fireballs.reduce((acc, curr) => acc + curr.m, 0);
+console.log(result);
