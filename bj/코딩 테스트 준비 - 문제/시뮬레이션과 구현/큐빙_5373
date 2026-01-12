@@ -1,0 +1,110 @@
+// 2026
+
+const fs = require('fs');
+const input = fs.readFileSync('example').toString().trim().split('\n');
+
+let lineIdx = 0;
+const T = parseInt(input[lineIdx++]);
+
+for (let t = 0; t < T; t++) {
+    const n = parseInt(input[lineIdx++]);
+    const commands = input[lineIdx++].split(' ');
+    
+    // 큐브 초기화 (w:위, y:아래, r:앞, o:뒤, g:왼쪽, b:오른쪽)
+    let cube = {
+        U: Array.from({ length: 3 }, () => Array(3).fill('w')),
+        D: Array.from({ length: 3 }, () => Array(3).fill('y')),
+        F: Array.from({ length: 3 }, () => Array(3).fill('r')),
+        B: Array.from({ length: 3 }, () => Array(3).fill('o')),
+        L: Array.from({ length: 3 }, () => Array(3).fill('g')),
+        R: Array.from({ length: 3 }, () => Array(3).fill('b')),
+    };
+
+    commands.forEach(cmd => {
+        const side = cmd[0];
+        const dir = cmd[1];
+        // console.log(cube, side, dir);
+        rotate(cube, side, dir);
+    });
+
+    // 윗면(U) 출력
+    let result = "";
+    for (let i = 0; i < 3; i++) {
+        result += cube.U[i].join('') + "\n";
+    }
+    // console.log(result);
+    process.stdout.write(result);
+}
+
+function rotateSelf(face, dir) {
+    // 90도
+    let prev = face.map(row => [...row]);
+    if (dir === '+') { // 시계
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                face[j][2 - i] = prev[i][j];
+            }
+        }
+    } else { // 반시계
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                face[2 - j][i] = prev[i][j];
+            }
+        }
+    }
+}
+
+// 돌리기
+function rotate(cube, side, dir) {
+    rotateSelf(cube[side], dir); // 90도 돌리기 
+
+    // 인접한 4개 면의 테두리 이동
+    // 시계 방향(+) 기준으로 정의하고, 반시계(-)면 이 작업을 3번 반복하거나 역순 처리
+    const repeat = dir === '+' ? 1 : 3;
+    
+    for (let r = 0; r < repeat; r++) {
+        let temp = Array(3);
+        if (side === 'U') {
+            for (let i = 0; i < 3; i++) temp[i] = cube.B[0][i];
+            for (let i = 0; i < 3; i++) cube.B[0][i] = cube.L[0][i];
+            for (let i = 0; i < 3; i++) cube.L[0][i] = cube.F[0][i];
+            for (let i = 0; i < 3; i++) cube.F[0][i] = cube.R[0][i];
+            for (let i = 0; i < 3; i++) cube.R[0][i] = temp[i];
+        } 
+        else if (side === 'D') {
+            for (let i = 0; i < 3; i++) temp[i] = cube.F[2][i];
+            for (let i = 0; i < 3; i++) cube.F[2][i] = cube.L[2][i];
+            for (let i = 0; i < 3; i++) cube.L[2][i] = cube.B[2][i];
+            for (let i = 0; i < 3; i++) cube.B[2][i] = cube.R[2][i];
+            for (let i = 0; i < 3; i++) cube.R[2][i] = temp[i];
+        } 
+        else if (side === 'F') {
+            for (let i = 0; i < 3; i++) temp[i] = cube.U[2][i];
+            for (let i = 0; i < 3; i++) cube.U[2][i] = cube.L[2 - i][2];
+            for (let i = 0; i < 3; i++) cube.L[i][2] = cube.D[0][i];
+            for (let i = 0; i < 3; i++) cube.D[0][2 - i] = cube.R[i][0];
+            for (let i = 0; i < 3; i++) cube.R[i][0] = temp[i];
+        } 
+        else if (side === 'B') {
+            for (let i = 0; i < 3; i++) temp[i] = cube.U[0][i];
+            for (let i = 0; i < 3; i++) cube.U[0][i] = cube.R[i][2];
+            for (let i = 0; i < 3; i++) cube.R[2 - i][2] = cube.D[2][i];
+            for (let i = 0; i < 3; i++) cube.D[2][i] = cube.L[i][0];
+            for (let i = 0; i < 3; i++) cube.L[2 - i][0] = temp[i];
+        } 
+        else if (side === 'L') {
+            for (let i = 0; i < 3; i++) temp[i] = cube.U[i][0];
+            for (let i = 0; i < 3; i++) cube.U[i][0] = cube.B[2 - i][2];
+            for (let i = 0; i < 3; i++) cube.B[i][2] = cube.D[2 - i][0];
+            for (let i = 0; i < 3; i++) cube.D[i][0] = cube.F[i][0];
+            for (let i = 0; i < 3; i++) cube.F[i][0] = temp[i];
+        } 
+        else if (side === 'R') {
+            for (let i = 0; i < 3; i++) temp[i] = cube.U[i][2];
+            for (let i = 0; i < 3; i++) cube.U[i][2] = cube.F[i][2];
+            for (let i = 0; i < 3; i++) cube.F[i][2] = cube.D[i][2];
+            for (let i = 0; i < 3; i++) cube.D[i][2] = cube.B[2 - i][0];
+            for (let i = 0; i < 3; i++) cube.B[i][0] = temp[2 - i];
+        }
+    }
+}
