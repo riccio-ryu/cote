@@ -1,0 +1,45 @@
+// 2026
+
+const fs = require('fs');
+const input = fs.readFileSync('example').toString().trim().split('\n');
+
+// console.log(input);
+const N = parseInt(input[0]);
+const stack = [];
+const result = [];
+
+for (let i = 1; i <= N; i++) {
+    const command = input[i].split(' ');
+
+    switch (command[0]) {
+        case 'push':
+            stack.push(parseInt(command[1]));
+            break;
+
+        case 'pop':
+            if (stack.length === 0) {
+                result.push(-1);
+            } else {
+                result.push(stack.pop());
+            }
+            break;
+
+        case 'size':
+            result.push(stack.length);
+            break;
+
+        case 'empty':
+            result.push(stack.length === 0 ? 1 : 0);
+            break;
+
+        case 'top':
+            if (stack.length === 0) {
+                result.push(-1);
+            } else {
+                result.push(stack[stack.length - 1]);
+            }
+            break;
+    }
+}
+
+process.stdout.write(result.join('\n') + '\n');
