@@ -1,0 +1,59 @@
+// 2026
+
+const fs = require('fs');
+const input = fs.readFileSync('example').toString().trim().split('\n');
+
+// console.log(input);
+
+const V = parseInt(input[0]);
+const adj = Array.from({ length: V + 1 }, () => []);
+
+for (let i = 1; i <= V; i++) {
+    const line = input[i].split(' ').map(Number);
+    const u = line[0];
+    for (let j = 1; j < line.length - 1; j += 2) {
+        const v = line[j];
+        const dist = line[j + 1];
+        adj[u].push([v, dist]);
+    }
+}
+
+// console.log(V, adj)
+
+function bfs(startNode) {
+    const visited = new Array(V + 1).fill(-1);
+    const queue = [startNode];
+    visited[startNode] = 0;
+    
+    // console.log(' ---' , visited, queue, startNode);
+
+    let maxDist = 0;
+    let farthestNode = startNode;
+    let head = 0;
+
+    while (head < queue.length) {
+        // console.log(' qqq ', queue, head)
+
+        const curr = queue[head++];
+        
+        for (const [next, dist] of adj[curr]) {
+            if (visited[next] === -1) {
+                visited[next] = visited[curr] + dist;
+                queue.push(next);
+                
+                if (visited[next] > maxDist) {
+                    maxDist = visited[next];
+                    farthestNode = next;
+                }
+            }
+        }
+    }
+    return { node: farthestNode, dist: maxDist };
+}
+
+const firstBFS = bfs(1);
+// console.log(firstBFS);
+const secondBFS = bfs(firstBFS.node);
+// console.log(secondBFS);
+
+console.log(secondBFS.dist);
