@@ -83,3 +83,29 @@ function getCombination(arr,selectNum){
 
 getCombination([1,2,3,4], 3);
 ```
+
+하노이의탑
+```
+/**
+ * 하노이 탑 재귀 함수
+ * @param {number} n : 옮길 원판의 개수
+ * @param {number} from : 출발지 기둥 번호
+ * @param {number} to : 목적지 기둥 번호
+ * @param {number} other : 거쳐갈 보조 기둥 번호
+ */
+function hanoi(n, from, to, other) {
+    if (n === 0) return;
+
+    // 1. n-1개를 출발지에서 보조 기둥으로 옮김 (목적지를 거쳐서)
+    hanoi(n - 1, from, other, to);
+
+    // 2. 가장 큰 원판을 목적지로 옮김
+    results.push(`${from} ${to}`);
+    count++;
+
+    // 3. 보조 기둥에 있던 n-1개를 목적지로 옮김 (출발지를 거쳐서)
+    hanoi(n - 1, other, to, from);
+}
+
+hanoi(N, 1, 3, 2);
+```
